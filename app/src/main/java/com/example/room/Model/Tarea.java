@@ -21,7 +21,7 @@ public class Tarea implements java.io.Serializable {
     public Tarea(String nombre, String descripcion, Date fecha, byte[] imagen) {
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.fecha = fecha;
+        this.fecha = (fecha != null) ? fecha : new Date(); // Si la fecha es null, usa la fecha actual
         this.completada = false; // Por defecto, la tarea no está completada.
         this.imagen = imagen;
     }

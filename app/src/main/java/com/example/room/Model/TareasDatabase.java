@@ -3,13 +3,12 @@ package com.example.room.Model;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters; // Import necesario
 import android.content.Context;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 // Clase que representa la base de datos Room para la aplicación.
-@Database(entities = {Tarea.class}, version = 1, exportSchema = false)
+@Database(entities = {Tarea.class}, version = 3, exportSchema = false)
+@TypeConverters({Converters.class}) // Agregar aquí el TypeConverter
 public abstract class TareasDatabase extends RoomDatabase {
 
     // Define el DAO que interactuará con la base de datos.

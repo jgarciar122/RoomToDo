@@ -1,6 +1,5 @@
 package com.example.room.UI;
 
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,11 +12,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.room.R;
-import com.example.room.Model.
-import com.example.tareas.databinding.ItemTareaBinding;
+import com.example.room.Model.Tarea;
+import com.example.room.databinding.ItemTareaBinding;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 // Adaptador para gestionar la lista de tareas en el RecyclerView.
 public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareasViewHolder> {
@@ -46,7 +47,10 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareasView
         // Configuramos los datos en las vistas.
         holder.binding.textoNombre.setText(tareaActual.getNombre());
         holder.binding.textoDescripcion.setText(tareaActual.getDescripcion());
-        holder.binding.textoFecha.setText(tareaActual.getFecha());
+
+        // Convertimos la fecha de Date a String antes de asignarla al TextView.
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        holder.binding.textoFecha.setText(formatoFecha.format(tareaActual.getFecha()));
 
         // Asigna un listener de clic al elemento completo del RecyclerView.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -98,5 +102,4 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareasView
         listaTareas.remove(posicion); // Elimina el elemento de la lista.
         notifyItemRemoved(posicion); // Notifica al RecyclerView sobre la eliminación.
     }
-
 }
