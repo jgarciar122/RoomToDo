@@ -1,5 +1,6 @@
 package com.example.room.UI;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,6 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -45,6 +47,23 @@ public class FragmentAgregarTarea extends Fragment {
         tareasViewModel = new ViewModelProvider(this).get(TareasViewModel.class);
         binding.btnSeleccionarImagen.setOnClickListener(v -> abrirGaleria());
         binding.btnGuardar.setOnClickListener(v -> guardarTarea());
+        binding.editFecha.setOnClickListener(v -> mostrarDatePicker());
+    }
+    private void mostrarDatePicker() {
+        Calendar calendario = Calendar.getInstance();
+        int year = calendario.get(Calendar.YEAR);
+        int month = calendario.get(Calendar.MONTH);
+        int day = calendario.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                requireContext(),
+                (view, yearSelected, monthSelected, daySelected) -> {
+                    String fechaSeleccionada = daySelected + "/" + (monthSelected + 1) + "/" + yearSelected;
+                    binding.editFecha.setText(fechaSeleccionada);
+                },
+                year, month, day
+        );
+        datePickerDialog.show();
     }
 
     private void abrirGaleria() {

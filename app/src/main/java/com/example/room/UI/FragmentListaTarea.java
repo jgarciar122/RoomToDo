@@ -1,5 +1,6 @@
 package com.example.room.UI;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,14 +21,13 @@ import com.example.room.databinding.FragmentListaTareaBinding;
 
 public class FragmentListaTarea extends Fragment {
 
-    private TareasViewModel tareasViewModel; // Referencia al ViewModel.
-    private TareasAdapter tareasAdapter; // Adaptador para el RecyclerView.
-    private FragmentListaTareaBinding binding; // Objeto para ViewBinding
+    private TareasViewModel tareasViewModel;
+    private TareasAdapter tareasAdapter;
+    private FragmentListaTareaBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflamos el diseño del fragmento.
         binding = FragmentListaTareaBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
@@ -36,14 +36,11 @@ public class FragmentListaTarea extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Inicializamos el RecyclerView.
         RecyclerView recyclerView = view.findViewById(R.id.recycler_tareas);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext())); // Diseño en lista vertical.
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Obtenemos una instancia del ViewModel.
         tareasViewModel = new ViewModelProvider(this).get(TareasViewModel.class);
 
-        // Configuramos el adaptador del RecyclerView.
         tareasAdapter = new TareasAdapter(tareasViewModel);
         recyclerView.setAdapter(tareasAdapter);
 
@@ -51,33 +48,50 @@ public class FragmentListaTarea extends Fragment {
             NavHostFragment.findNavController(this).navigate(R.id.fragmentAgregarTarea);
         });
 
-        // Observamos los datos de la lista de películas.
         tareasViewModel.obtenerTodasLasTareas().observe(getViewLifecycleOwner(), tareas -> {
-            // Actualizamos los datos del adaptador cuando cambien en el ViewModel.
             tareasAdapter.establecerTareas(tareas);
         });
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false; // No permitimos mover los elementos.
+                return false;
             }
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                // Obtiene la posición del elemento desplazado.
                 int posicion = viewHolder.getAdapterPosition();
-                Tarea tareaAEliminar = tareasAdapter.obtenerTareaEn(posicion);
+                Tarea tarea = tareasAdapter.obtenerTareaEn(posicion);
 
-                // Elimina la película de la base de datos.
-                tareasViewModel.eliminar(tareaAEliminar);
-
-                // Elimina la película de la lista visualmente.
-                tareasAdapter.eliminarTareaEn(posicion);
+                if (direction == ItemTouchHelper.RIGHT) {
+                    // Alerta para marcar tarea como completada cuando se desliza a la derecha
+                    new AlertDialog.Builder(requireContext())
+                            .setTitle("Marcar tarea como completada")
+                            .setMessage("¿Estás seguro de que quieres marcar esta tarea como completada?")
+                            .setPositiveButton("Sí", (dialog, which) -> {
+                                tarea.setCompletada(true);
+                                tareasViewModel.actualizar(tarea);
+                                tareasAdapter.notifyItemChanged(posicion);
+                            })
+                            .setNegativeButton("Cancelar", (dialog, which) -> {
+                                tareasAdapter.notifyItemChanged(posicion); // Restaurar tarea si se cancela
+                            })
+                            .show();
+                } else if (direction == ItemTouchHelper.LEFT) {
+                    // Alerta para eliminar tarea cuando se desliza a la izquierda
+                    new AlertDialog.Builder(requireContext())
+                            .setTitle("Eliminar tarea")
+                            .setMessage("¿Estás seguro de que quieres eliminar esta tarea?")
+                            .setPositiveButton("Eliminar", (dialog, which) -> {
+                                tareasViewModel.eliminar(tarea);
+                                tareasAdapter.eliminarTareaEn(posicion);
+                            })
+                            .setNegativeButton("Cancelar", (dialog, which) -> {
+                                tareasAdapter.notifyItemChanged(posicion); // Restaurar tarea si se cancela
+                            })
+                            .show();
+                }
             }
+
         }).attachToRecyclerView(binding.recyclerTareas);
-
     }
-
-
-
 }

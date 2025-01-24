@@ -13,7 +13,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Nombre de la tarea -->
         <TextView
             android:id="@+id/texto_nombre"
             android:layout_width="match_parent"
@@ -23,7 +22,6 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <!-- Descripción de la tarea -->
         <TextView
             android:id="@+id/texto_descripcion"
             android:layout_width="match_parent"
@@ -33,7 +31,6 @@
             android:textColor="@android:color/darker_gray"
             android:textSize="16sp" />
 
-        <!-- Fecha límite -->
         <TextView
             android:id="@+id/texto_fecha"
             android:layout_width="match_parent"
@@ -44,7 +41,6 @@
             android:textSize="14sp"
             android:textStyle="italic" />
 
-        <!-- Indicador de prioridad -->
         <TextView
             android:id="@+id/texto_prioridad"
             android:layout_width="wrap_content"

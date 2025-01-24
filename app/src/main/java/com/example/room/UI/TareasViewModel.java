@@ -11,18 +11,17 @@ import com.example.room.Model.TareasRepositorio;
 import java.util.Date;
 import java.util.List;
 
-// Clase que gestiona los datos observables para la vista.
 public class TareasViewModel extends AndroidViewModel {
 
-    private final TareasRepositorio repositorio; // Referencia al repositorio.
-    private final LiveData<List<Tarea>> todasLasTareas; // Lista de tareas observables.
+    private final TareasRepositorio repositorio;
+    private final LiveData<List<Tarea>> todasLasTareas;
 
     // Constructor del ViewModel.
     public TareasViewModel(Application aplicacion) {
         super(aplicacion);
-        repositorio = new TareasRepositorio(aplicacion); // Inicializa el repositorio.
-        todasLasTareas = repositorio.obtenerTodasLasTareas(); // Obtiene todas las tareas.
-
+        repositorio = new TareasRepositorio(aplicacion);
+        todasLasTareas = repositorio.obtenerTodasLasTareas();
+        //Solo inicializar una vez---
         //inicializarTareasDeMuestra();
     }
 
@@ -31,7 +30,7 @@ public class TareasViewModel extends AndroidViewModel {
 
         // Inserción de tareas con nombre, descripción, fecha y imagen
         repositorio.insertar(new Tarea("Estudiar programación", "Repasar conceptos de Java y Android",
-                new Date(), null)); // new Date() para la fecha actual, null para imagen (puedes añadir una imagen si lo deseas)
+                new Date(), null));
         repositorio.insertar(new Tarea("Hacer ejercicio", "Correr 30 minutos por la mañana",
                 new Date(), null));
         repositorio.insertar(new Tarea("Reunión con el equipo", "Revisar avances de proyectos",

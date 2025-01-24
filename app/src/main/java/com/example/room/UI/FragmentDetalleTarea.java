@@ -22,7 +22,6 @@ public class FragmentDetalleTarea extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Vincula el diseño con ViewBinding.
         binding = FragmentDetalleTareaBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -31,16 +30,14 @@ public class FragmentDetalleTarea extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Obtiene los argumentos pasados al fragmento.
         if (getArguments() != null) {
 
             Tarea tarea = (Tarea) getArguments().getSerializable("tarea");
 
-            // Configura los datos de la reseña en las vistas.
             binding.textoNombreDetalle.setText(tarea.getNombre());
             binding.textoDescripcionDetalle.setText(tarea.getDescripcion());
+            binding.textoFechaDetalle.setText(tarea.getFecha().toString());
 
-            // Convierte el array de bytes a Bitmap y lo muestra.
             if (tarea.getImagen() != null) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(tarea.getImagen(), 0, tarea.getImagen().length);
                 binding.imagenDetalle.setImageBitmap(bitmap);
@@ -51,6 +48,6 @@ public class FragmentDetalleTarea extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null; // Libera el binding para evitar fugas de memoria.
+        binding = null;
     }
 }
