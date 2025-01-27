@@ -55,9 +55,12 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareasView
             holder.itemView.setBackgroundColor(Color.WHITE);
         }
 
-        // Convertimos la fecha de Date a String antes de asignarla al TextView.
+        // Convertimos la fecha de Date a String
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        holder.binding.textoFecha.setText(formatoFecha.format(tareaActual.getFecha()));
+        String fechaString = formatoFecha.format(tareaActual.getFecha());
+        holder.binding.textoFecha.setText(fechaString);
+
+        holder.binding.textoFecha.setTextColor(getFechaColor(fechaString));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +83,8 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareasView
     // Método para actualizar la lista de tareas.
     public void establecerTareas(List<Tarea> tareas) {
         this.listaTareas = tareas;
+
+        this.listaTareas.sort((t1, t2) -> t1.getFecha().compareTo(t2.getFecha()));
         notifyDataSetChanged();
     }
 
@@ -92,6 +97,30 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareasView
             this.binding = binding;
         }
     }
+    private int getFechaColor(String fechaString) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        try {
+            // Convertimos el String a Date
+            java.util.Date fechaTarea = sdf.parse(fechaString);
+            java.util.Date fechaActual = new java.util.Date();
+
+            long diferencia = fechaTarea.getTime() - fechaActual.getTime();
+            long diasDiferencia = diferencia / (1000 * 60 * 60 * 24);
+
+            if (diasDiferencia < 0) {
+                return Color.RED; // Fecha pasada
+            } else if (diasDiferencia <= 7) {
+                return Color.YELLOW; // Menos de una semana
+            } else {
+                return Color.GREEN; // Más de una semana
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Color.BLACK; // Color por defecto en caso de error
+        }
+    }
+
+
 
     public Tarea obtenerTareaEn(int posicion) {
         return listaTareas.get(posicion);

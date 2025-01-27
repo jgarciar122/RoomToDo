@@ -27,8 +27,7 @@ public class TareasViewModel extends AndroidViewModel {
 
     private void inicializarTareasDeMuestra() {
         repositorio.eliminarTodasLasTareas();
-
-        // Inserción de tareas con nombre, descripción, fecha y imagen
+        //Tareas de muestra
         repositorio.insertar(new Tarea("Estudiar programación", "Repasar conceptos de Java y Android",
                 new Date(), null));
         repositorio.insertar(new Tarea("Hacer ejercicio", "Correr 30 minutos por la mañana",
