@@ -39,4 +39,8 @@ public class TareasRepositorio {
     public LiveData<List<Tarea>> obtenerTodasLasTareas() {
         return tareaDAO.obtenerTodasLasTareas();
     }
+
+    public LiveData<List<Tarea>> obtenerTareasNoCompletadas() {
+        return tareaDAO.obtenerTareasNoCompletadas();
+    }
 }

@@ -2,12 +2,17 @@ package com.example.room.UI;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -39,6 +44,30 @@ public class FragmentListaTarea extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_tareas);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        requireActivity().addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.menu_toolbar, menu);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                Log.i("TAG", "onMenuItemSelected: ");
+                boolean filtroActivo = !menuItem.isChecked();
+                if (filtroActivo) {
+                    menuItem.setChecked(true);
+                    tareasViewModel.obtenerTareasNoCompletadas().observe(getViewLifecycleOwner(), tareas -> {
+                        tareasAdapter.establecerTareas(tareas);
+                    });
+                } else {
+                    menuItem.setChecked(false);
+                    tareasViewModel.obtenerTodasLasTareas().observe(getViewLifecycleOwner(), tareas -> {
+                        tareasAdapter.establecerTareas(tareas);
+                    });
+                }
+                return false;
+            }
+        });
         tareasViewModel = new ViewModelProvider(this).get(TareasViewModel.class);
 
         tareasAdapter = new TareasAdapter(tareasViewModel);

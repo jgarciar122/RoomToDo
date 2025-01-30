@@ -38,7 +38,6 @@ public class TareasViewModel extends AndroidViewModel {
                 new Date(), null));
         repositorio.insertar(new Tarea("Comprar comida", "Ir al supermercado a comprar ingredientes",
                 new Date(), null));
-
         repositorio.insertar(new Tarea("Preparar presentación", "Crear diapositivas para la reunión",
                 new Date(), null));
         repositorio.insertar(new Tarea("Revisar correo", "Leer los correos importantes",
@@ -72,7 +71,12 @@ public class TareasViewModel extends AndroidViewModel {
     }
 
     // Método para obtener todas las tareas como LiveData.
-    public LiveData<List<Tarea>> obtenerTodasLasTareas() {
-        return todasLasTareas;
+    public LiveData<List<Tarea>> obtenerTodasLasTareas(){
+        return repositorio.obtenerTodasLasTareas();
     }
+
+    public LiveData<List<Tarea>> obtenerTareasNoCompletadas() {
+        return repositorio.obtenerTareasNoCompletadas();
+    }
+
 }

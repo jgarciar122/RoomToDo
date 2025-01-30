@@ -29,5 +29,9 @@ public interface TareaDAO {
 
     @Query("DELETE FROM tabla_tareas")
     void eliminarTodasLasTareas();
+
+    @Query("SELECT * FROM tabla_tareas WHERE completada = 0")
+    LiveData<List<Tarea>> obtenerTareasNoCompletadas();
+
 }
 

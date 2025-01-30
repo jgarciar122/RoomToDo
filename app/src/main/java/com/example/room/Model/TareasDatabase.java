@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters; // Import necesario
 import android.content.Context;
 
-@Database(entities = {Tarea.class}, version = 4, exportSchema = false)
+@Database(entities = {Tarea.class}, version = 1, exportSchema = false)
 @TypeConverters({Converters.class}) // Aquí agrego el convertidor de date
 public abstract class TareasDatabase extends RoomDatabase {
 
