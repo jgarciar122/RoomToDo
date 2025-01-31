@@ -27,7 +27,6 @@ public class TareasViewModel extends AndroidViewModel {
 
     private void inicializarTareasDeMuestra() {
         repositorio.eliminarTodasLasTareas();
-        //Tareas de muestra
         repositorio.insertar(new Tarea("Estudiar programación", "Repasar conceptos de Java y Android",
                 new Date(), null));
         repositorio.insertar(new Tarea("Hacer ejercicio", "Correr 30 minutos por la mañana",
@@ -50,27 +49,22 @@ public class TareasViewModel extends AndroidViewModel {
                 new Date(), null));
     }
 
-    // Método para insertar una nueva tarea.
     public void insertar(Tarea tarea) {
         repositorio.insertar(tarea);
     }
 
-    // Método para actualizar una tarea existente.
     public void actualizar(Tarea tarea) {
         repositorio.actualizar(tarea);
     }
 
-    // Método para eliminar una tarea.
     public void eliminar(Tarea tarea) {
         repositorio.eliminar(tarea);
     }
 
-    // Método para eliminar todas las tareas.
     public void eliminarTodasLasTareas() {
         repositorio.eliminarTodasLasTareas();
     }
 
-    // Método para obtener todas las tareas como LiveData.
     public LiveData<List<Tarea>> obtenerTodasLasTareas(){
         return repositorio.obtenerTodasLasTareas();
     }

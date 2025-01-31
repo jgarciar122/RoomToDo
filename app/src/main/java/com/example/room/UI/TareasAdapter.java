@@ -46,16 +46,13 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareasView
         holder.binding.textoDescripcion.setText(tareaActual.getDescripcion());
 
         if (tareaActual.isCompletada()) {
-            // Esto sirve para tacharla si está completada y poner el fondo gris
             holder.binding.textoNombre.setPaintFlags(holder.binding.textoNombre.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             holder.itemView.setBackgroundColor(Color.LTGRAY);
         } else {
-            // Esto la mantiene normal si no está completada
             holder.binding.textoNombre.setPaintFlags(holder.binding.textoNombre.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             holder.itemView.setBackgroundColor(Color.WHITE);
         }
 
-        // Convertimos la fecha de Date a String
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         String fechaString = formatoFecha.format(tareaActual.getFecha());
         holder.binding.textoFecha.setText(fechaString);
@@ -80,7 +77,6 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareasView
         return listaTareas.size();
     }
 
-    // Método para actualizar la lista de tareas.
     public void establecerTareas(List<Tarea> tareas) {
         this.listaTareas = tareas;
 
@@ -100,7 +96,6 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareasView
     private int getFechaColor(String fechaString) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         try {
-            // Convertimos el String a Date
             java.util.Date fechaTarea = sdf.parse(fechaString);
             java.util.Date fechaActual = new java.util.Date();
 
@@ -108,15 +103,15 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.TareasView
             long diasDiferencia = diferencia / (1000 * 60 * 60 * 24);
 
             if (diasDiferencia < 0) {
-                return Color.RED; // Fecha pasada
+                return Color.RED;
             } else if (diasDiferencia <= 7) {
-                return Color.YELLOW; // Menos de una semana
+                return Color.YELLOW;
             } else {
-                return Color.GREEN; // Más de una semana
+                return Color.GREEN;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return Color.BLACK; // Color por defecto en caso de error
+            return Color.BLACK;
         }
     }
 

@@ -48,13 +48,10 @@ public class FragmentDetalleTarea extends Fragment {
             binding.textoDescripcionDetalle.setText(tarea.getDescripcion());
             binding.textoFechaDetalle.setText(tarea.getFecha().toString());
 
-            // Cargar la imagen si ya existe
             if (tarea.getImagen() != null) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(tarea.getImagen(), 0, tarea.getImagen().length);
                 binding.imagenDetalle.setImageBitmap(bitmap);
             }
-
-            // Acción para abrir la galería y actualizar la imagen
             binding.btnSeleccionarImagen2.setOnClickListener(v -> abrirGaleria());
         }
     }
@@ -70,20 +67,16 @@ public class FragmentDetalleTarea extends Fragment {
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == getActivity().RESULT_OK && data != null) {
             Uri uriImagen = data.getData();
             try {
-               // InputStream inputStream = getActivity().getContentResolver().openInputStream(uriImagen);
+                InputStream inputStream = getActivity().getContentResolver().openInputStream(uriImagen);
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uriImagen);
 
-
-                // Convertir la imagen a byte array para actualizar la tarea
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
                 imagenSeleccionada = outputStream.toByteArray();
 
-                // Actualizar la tarea con la nueva imagen
-                tarea.setImagen(imagenSeleccionada); // Actualizar la tarea con la nueva imagen
+                tarea.setImagen(imagenSeleccionada);
 
-                // Llamar al método de actualización en el ViewModel
-                tareasViewModel.actualizar(tarea); // Llamar al método de actualización
+                tareasViewModel.actualizar(tarea);
 
                 binding.imagenDetalle.setImageBitmap(bitmap);
 

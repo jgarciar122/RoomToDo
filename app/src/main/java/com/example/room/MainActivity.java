@@ -41,6 +41,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        binding.bottomNavigation.setSelectedItemId(R.id.fragmentListaTarea); // Establecer por defecto el fragmento de la lista de tareas
+        binding.bottomNavigation.setSelectedItemId(R.id.fragmentListaTarea); // Por defecto
     }
 }

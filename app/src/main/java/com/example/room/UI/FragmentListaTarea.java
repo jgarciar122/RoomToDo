@@ -92,7 +92,6 @@ public class FragmentListaTarea extends Fragment {
                 Tarea tarea = tareasAdapter.obtenerTareaEn(posicion);
 
                 if (direction == ItemTouchHelper.RIGHT) {
-                    // Alerta para marcar tarea como completada cuando se desliza a la derecha
                     new AlertDialog.Builder(requireContext())
                             .setTitle("Marcar tarea como completada")
                             .setMessage("¿Estás seguro de que quieres marcar esta tarea como completada?")
@@ -106,7 +105,6 @@ public class FragmentListaTarea extends Fragment {
                             })
                             .show();
                 } else if (direction == ItemTouchHelper.LEFT) {
-                    // Alerta para eliminar tarea cuando se desliza a la izquierda
                     new AlertDialog.Builder(requireContext())
                             .setTitle("Eliminar tarea")
                             .setMessage("¿Estás seguro de que quieres eliminar esta tarea?")
@@ -115,7 +113,7 @@ public class FragmentListaTarea extends Fragment {
                                 tareasAdapter.eliminarTareaEn(posicion);
                             })
                             .setNegativeButton("Cancelar", (dialog, which) -> {
-                                tareasAdapter.notifyItemChanged(posicion); // Restaurar tarea si se cancela
+                                tareasAdapter.notifyItemChanged(posicion);
                             })
                             .show();
                 }
