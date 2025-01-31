@@ -11,6 +11,11 @@
         android:label="Lista de Tareas"
         tools:layout="@layout/fragment_lista_tarea" />
 
+    <fragment
+        android:id="@+id/fragmentBusqueda"
+        android:name="com.example.room.UI.FragmentBusqueda"
+        android:label="Búsqueda de Tareas"
+        tools:layout="@layout/fragment_busqueda" />
 
     <fragment
         android:id="@+id/fragmentAgregarTarea"
@@ -23,6 +28,4 @@
         android:name="com.example.room.UI.FragmentDetalleTarea"
         android:label="Detalle de la Reseña"
         tools:layout="@layout/fragment_detalle_tarea" />
-
-
 </navigation>

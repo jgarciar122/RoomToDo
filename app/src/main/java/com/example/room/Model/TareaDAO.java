@@ -33,5 +33,8 @@ public interface TareaDAO {
     @Query("SELECT * FROM tabla_tareas WHERE completada = 0")
     LiveData<List<Tarea>> obtenerTareasNoCompletadas();
 
+    @Query("SELECT * FROM tabla_tareas WHERE nombre LIKE :nombre")
+    LiveData<List<Tarea>> obtenerTareasPorNombre(String nombre);
+
 }
 

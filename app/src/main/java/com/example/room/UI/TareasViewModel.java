@@ -78,5 +78,8 @@ public class TareasViewModel extends AndroidViewModel {
     public LiveData<List<Tarea>> obtenerTareasNoCompletadas() {
         return repositorio.obtenerTareasNoCompletadas();
     }
+    public LiveData<List<Tarea>> obtenerTareasFiltradasPorNombre(String nombre) {
+        return repositorio.obtenerTareasFiltradasPorNombre(nombre);
+    }
 
 }

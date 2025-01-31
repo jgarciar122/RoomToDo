@@ -43,4 +43,9 @@ public class TareasRepositorio {
     public LiveData<List<Tarea>> obtenerTareasNoCompletadas() {
         return tareaDAO.obtenerTareasNoCompletadas();
     }
+
+    public LiveData<List<Tarea>> obtenerTareasFiltradasPorNombre(String nombre) {
+        return tareaDAO.obtenerTareasPorNombre("%" + nombre + "%");
+    }
+
 }
